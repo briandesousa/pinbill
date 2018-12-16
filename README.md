@@ -2,6 +2,8 @@
 
 A web-based bill organization app with the ability to "pin" bills to your calendar.
 
+![PinBall App Screenshot](app-screenshot.png)
+
 ## Features
 * login with Google
 * maintain a list of bill providers
