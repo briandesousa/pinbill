@@ -1,14 +1,33 @@
-<h2>Add New Bill Provider</h2>
-<p>
-  <label>Bill Provider Name: </label>
-  <input type="text" />
-</p>
-<p>
-  <label>Payment Source: </label>
-  <input type="text" />
-</p>
-<p>
-  <label>Reoccurrence: </label>
-  <input type="text" />
-</p>
-<button (click)="save()">Save</button>
+<div class="row">
+  <div class="col-8">
+    <app-bill-provider-list [displayAddProviderButton]="false"></app-bill-provider-list>
+  </div>
+  <div class="col-4 bg-light">
+      <h2 class="mb-3">Add New Bill Provider</h2>
+      <div class="row mb-3">
+        <div class="col">
+          <label>Bill Provider Name</label>
+        </div>
+        <div class="col">
+          <input type="text" />
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col">
+            <label>Payment Source: </label>
+        </div>
+        <div class="col">
+            <input type="text" />
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col">
+          <label>Reoccurrence: </label>
+        </div>
+        <div class="col">
+          <input type="text" />
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block" (click)="save()">Save</button>
+  </div>
+</div>
