@@ -9,15 +9,10 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>Reliance Home Comfort</td>
-      <td>Credit Card (MBNA MC)</td>
-      <td>Monthly on the 31st</td>
-    </tr>
-    <tr>
-      <td>Hydro One</td>
-      <td>Bank Account</td>
-      <td>Monthly on the 15th</td>
+    <tr *ngFor="let billProvider of billProviders$ | async">
+      <td>{{billProvider.name}}</td>
+      <td>{{billProvider.paymentSource}}</td>
+      <td>{{billProvider.frequency}}</td>
     </tr>
   </tbody>
 </table>

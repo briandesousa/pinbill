@@ -17,9 +17,11 @@ A web-based bill organization app with the ability to "pin" bills to your calend
 Initial implementation is a web-based solution built with Angular 7 and running on Node 10.
 
 ### Tech stack
-* Angular 7 
-* Node 10.14.2
-* Bootstrap 4
+* angular 7.x
+* node 10.14.2
+* bootstrap 4.x
+* firebase 5.x
+* firebase-tools 6.2 (installed globally)
 
 ## Developing 
 
@@ -41,3 +43,6 @@ Run `npm run e2e` to execute the end-to-end tests via [Protractor](http://www.pr
 
 Run `npm run lint` to run linting process.
 
+### Firebase
+
+Firebase Tools CLI v6.2 installed globally on development machine
