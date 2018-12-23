@@ -1,0 +1,36 @@
+<div *ngIf="afAuth.user | async as user; else showLogin">
+  <h2>Hello {{ user.displayName }}!</h2>
+  <button (click)="logout()">Logout</button>
+</div>
+
+<ng-template #showLogin>
+  <h2>It's time to login</h2>
+  <p>
+    Login with your email address and password or another login provider.  
+    Are you a new PinBill user? <a [routerLink]="['../register']">Register Here</a>
+  </p>
+
+  <div class="row mb-3">
+    <div class="col-2">
+      <label>Email address</label>
+    </div>
+    <div class="col-4">
+      <input [(ngModel)]="email" class="form-control" type="text" />
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-2">
+      <label>Password</label>
+    </div>
+    <div class="col-4">
+      <input [(ngModel)]="password" class="form-control" type="text" />
+    </div>
+  </div>
+  <p class="mb-4">
+    <button class="btn btn-primary" (click)="loginWithEmail()">Login</button>
+  </p>
+  <p>
+    <button class="btn btn-primary" (click)="loginWithGoogle()">Login with Google</button>
+  </p>
+  
+</ng-template>
