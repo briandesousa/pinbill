@@ -4,7 +4,7 @@
 </div>
 
 <ng-template #showLogin>
-  <h2>It's time to login</h2>
+  <h2>Hey wait, you need to login first.</h2>
   <p>
     Login with your email address and password or another login provider.  
     Are you a new PinBill user? <a [routerLink]="['../register']">Register Here</a>
@@ -30,7 +30,7 @@
     <button class="btn btn-primary" (click)="loginWithEmail()">Login</button>
   </p>
   <p>
-    <button class="btn btn-primary" (click)="loginWithGoogle()">Login with Google</button>
+    <button class="googleSignInButton" (click)="loginWithGoogle()"></button>
   </p>
   
 </ng-template>
