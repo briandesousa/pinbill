@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { UserService } from '../user.service';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -9,8 +10,10 @@ import { UserService } from '../user.service';
 })
 export class LoginComponent {
 
-  email: string;
-  password: string;
+  loginForm = new FormGroup({
+    email: new FormControl(''),
+    password: new FormControl('')
+  });
 
   constructor(
     public afAuth: AngularFireAuth,
@@ -21,7 +24,7 @@ export class LoginComponent {
   }
 
   loginWithEmail() {
-    this.afAuth.auth.signInWithEmailAndPassword(this.email, this.password);
+    this.afAuth.auth.signInWithEmailAndPassword(this.loginForm.value.email, this.loginForm.value.password);
   }
 
   logout() {

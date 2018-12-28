@@ -4,33 +4,43 @@
 </div>
 
 <ng-template #showLogin>
+
   <h2>Hey wait, you need to login first.</h2>
   <p>
-    Login with your email address and password or another login provider.  
+    Login with your Google account or your email address and password.
     Are you a new PinBill user? <a [routerLink]="['../register']">Register Here</a>
   </p>
 
-  <div class="row mb-3">
-    <div class="col-2">
-      <label>Email address</label>
-    </div>
-    <div class="col-4">
-      <input [(ngModel)]="email" class="form-control" type="text" />
+  <div class="form-row mb-3">
+    <div class="col">
+      <button class="btn googleSignInButton" (click)="loginWithGoogle()"></button>
     </div>
   </div>
-  <div class="row mb-3">
-    <div class="col-2">
-      <label>Password</label>
+
+  <form [formGroup]="loginForm" (ngSubmit)="loginWithEmail()">
+    <div class="form-row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="emailAddress">Email address</label>
+          <input type="text" class="form-control" id="emailAddress" formControlName="email" class="form-control" 
+            placeholder="Enter email" />
+        </div>
+      </div>
     </div>
-    <div class="col-4">
-      <input [(ngModel)]="password" class="form-control" type="text" />
+    <div class="form-row">
+      <div class="col-md-6">
+        <div class='form-group'>
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" formControlName="password" 
+            placeholder="Enter password" />
+        </div>
+      </div>
     </div>
-  </div>
-  <p class="mb-4">
-    <button class="btn btn-primary" (click)="loginWithEmail()">Login</button>
-  </p>
-  <p>
-    <button class="googleSignInButton" (click)="loginWithGoogle()"></button>
-  </p>
-  
+    <div class="form-row mb-3">
+      <div class="col-md-6">
+        <button type="submit" class="btn btn-primary">Sign In with Email Address</button>
+      </div>
+    </div>
+  </form>
+
 </ng-template>
