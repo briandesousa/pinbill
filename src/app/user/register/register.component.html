@@ -1,3 +1,49 @@
-<p>
-  register works!
-</p>
+<h2>Don't have an account yet?</h2>
+<p class="lead">We recommend that you register using your Google account in order to take full advantage of 
+  all PinBill capabilities.</p>
+<button class="googleRegisterButton" (click)="registerWithGoogle()"></button>
+
+<div class="mb-4"></div>
+
+<p class="lead">You can also register with an email address and password but you will need to link your 
+  Google account to pin your bills to your calendar.</p>
+
+<form [formGroup]="registrationForm" (ngSubmit)="onRegistrationSubmit()">
+  <div class="form-row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="emailAddress">Email Address</label>
+        <input type="email" class="form-control" id="emailAddress" formControlName="emailAddress"
+          aria-describedby="emailHelp" placeholder="Enter email" />
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" formControlName="password"
+          aria-describedby="password1Help" placeholder="Enter password" />
+        <small id="password1Help" class="form-text text-muted">
+          Password must be at least 8 characters long and contain at least 1 letter and number.
+        </small>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="confirmPassword">Re-enter Password</label>
+        <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword"
+          aria-describedby="confirmPasswordHelp" placeholder="Re-enter password" />
+        <small id="confirmPasswordHelp" class="form-text text-muted">Re-enter your password</small>
+      </div>
+    </div>
+  </div>
+  <div class="form-row mb-3">
+    <div class="col">
+      <button type="submit" class="btn btn-primary" [disabled]="!registrationForm.valid">Create Account</button>
+    </div>
+  </div>
+</form>
