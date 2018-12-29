@@ -4,6 +4,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
+  { path: 'home', component: DashboardComponent },
   { path: '', component: DashboardComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
