@@ -1,0 +1,6 @@
+/* You can add global styles to this file, and also import other style files */
+
+// enable bootstrap 4 form validation styles to work with Angular reactive form validation
+.ng-touched.ng-invalid {
+  @extend .is-invalid !optional;
+}
