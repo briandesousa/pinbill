@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Observable, Subscriber } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from './user';
 
@@ -24,31 +24,65 @@ export class UserService {
   }
 
   /**
-   * Initiate Google account login flow
+   * Retrieve a list of authentication methods (ex. password, google.com) available for a given email address.
+   * @param email user's email address
+   * @returns a promise containing a string[] of available authentication methods,
+   *  rejects with the reason.code returned from Firebase Auth
    */
-  loginWithGoogle() {
-    this.afAuth.auth.signInWithPopup(this.googleAuthProvider)
-      .then((userCredential: firebase.auth.UserCredential) => {
+  getAuthenticationMethods(email: string): Promise<string[]> {
+    return new Promise<string[]>(
+      (resolve, reject) => {
+        this.afAuth.auth.fetchSignInMethodsForEmail(email)
+          .then((authMethods: string[]) => {
+            console.log(`Auth methods: ${JSON.stringify(authMethods)}`);
+            resolve(authMethods);
+          })
+          .catch(reason => {
+            reject(reason.code);
+          });
+      }
+    );
+  }
 
-      })
-      .catch((reason: any) => {
-        console.log(`Google login failed: ${JSON.stringify(reason)}`);
-      });
+  /**
+   * Login with a Google account.
+   * @returns a Promise that resolves null upon successful login,
+   *  rejects with the reason.code returned from Firebase Auth
+   */
+  loginWithGoogle(): Promise<null> {
+    return new Promise<null>(
+      (resolve, reject) => {
+        this.afAuth.auth.signInWithPopup(this.googleAuthProvider)
+          .then((userCredential: firebase.auth.UserCredential) => {
+            resolve(null);
+          })
+          .catch((reason: any) => {
+            reject(reason.code);
+          });
+      }
+    );
   }
 
   /**
    * Login with an email address and password
    * @param emailAddress as registered in PinBill auth database
    * @param password as defined in PinBill auth database
+   * @returns a Promise that resolves true upon successful login with email and password,
+   *  rejects with the reason.code returned from Firebase Auth
    */
-  loginWithEmail(emailAddress: string, password: string) {
-    this.afAuth.auth.signInWithEmailAndPassword(emailAddress, password)
-      .then((userCredential: firebase.auth.UserCredential) => {
-        
-      })
-      .catch((reason: any) => {
-        console.log(`Email login failed: ${JSON.stringify(reason)}`);
-      });
+  loginWithEmail(emailAddress: string, password: string): Promise<boolean> {
+    return new Promise<boolean>(
+      (resolve, reject) => {
+        this.afAuth.auth.signInWithEmailAndPassword(emailAddress, password)
+          .then((userCredential: firebase.auth.UserCredential) => {
+            resolve(true);
+          })
+          .catch((reason: any) => { 
+            reject(reason.code);
+          });
+      }
+    );
+    
   }
 
   /**

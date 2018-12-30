@@ -1,46 +1,133 @@
-<div *ngIf="$user | async as user; else showLogin">
+<div *ngIf="$user | async as user; else login">
   <h2>Hello {{ user.displayName }}!</h2>
-  <button (click)="logout()">Logout</button>
+  <button (click)="signOut()">Logout</button>
 </div>
 
-<ng-template #showLogin>
+<ng-template #login>
 
-  <h2>Hey wait, you need to login first.</h2>
-  <p>
-    Login with your Google account or your email address and password.
-    Are you a new PinBill user? <a [routerLink]="['../register']">Register Here</a>
-  </p>
+  <div *ngIf="backendAuthError">
+    <div class="alert alert-danger">{{backendAuthError}}</div>
+  </div>
 
-  <div class="form-row mb-3">
-    <div class="col">
-      <button class="btn googleSignInButton" (click)="loginWithGoogle()"></button>
+  <div *ngIf="showIdentifyEmailForm">
+    <h2>Hey wait, you need to login first.</h2>
+    <form [formGroup]="identifyEmailForm" (submit)="identifySignInMethods()" class="needs-validation" novalidate>
+      <div class="form-row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" formControlName="email" class="form-control"
+              placeholder="Enter email" [ngClass]="{'is-invalid':isInvalid(email)}" required />
+            <div *ngIf="email.errors?.required" class="invalid-feedback">Email address is required</div>
+            <div *ngIf="email.errors?.email" class="invalid-feedback">Invalid email address</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row mb-3">
+        <div class="col-md-6">
+          <button type="submit" class="btn btn-primary">Sign In</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="showGoogleSignIn">
+    <h2>You can sign in with your Google account.</h2>
+    <div class="form-row mb-3">
+      <div class="col">
+        <button class="btn googleSignInButton" (click)="signInWithGoogle()"></button>
+      </div>
     </div>
   </div>
 
-  <form [formGroup]="loginForm" (ngSubmit)="loginWithEmail()">
-    <div class="form-row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="emailAddress">Email address</label>
-          <input type="text" class="form-control" id="emailAddress" formControlName="email" class="form-control" 
-            placeholder="Enter email" />
+  <div *ngIf="showPasswordSignIn">
+    <h2>Welcome Back! Enter your password to sign in.</h2>
+    <form [formGroup]="signInEmailForm" (submit)="signInWithEmail()" class="needs-validation" novalidate>
+      <div class="form-row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="signInEmail">Email address</label>
+            <input type="signInEmail" class="form-control" id="signInEmail" formControlName="signInEmail" class="form-control"
+              placeholder="Enter email" [ngClass]="{'is-invalid':isInvalid(signInEmail)}" required />
+            <div *ngIf="signInEmail.errors?.required" class="invalid-feedback">Email address is required</div>
+            <div *ngIf="signInEmail.errors?.email" class="invalid-feedback">Invalid email address</div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="form-row">
-      <div class="col-md-6">
-        <div class='form-group'>
-          <label for="password">Password</label>
-          <input type="password" class="form-control" id="password" formControlName="password" 
-            placeholder="Enter password" />
+      <div class="form-row">
+        <div class="col-md-6">
+          <div class='form-group'>
+            <label for="">Password</label>
+            <input type="signInPassword" class="form-control" id="signInPassword" formControlName="signInPassword"
+              placeholder="Enter password" [ngClass]="{'is-invalid':isInvalid(signInPassword)}" required />
+            <div *ngIf="signInPassword.errors?.required" class="invalid-feedback">Password is required</div>
+            <div *ngIf="signInPassword.errors?.passwordComplexity" class="invalid-feedback">
+              Passwords should include at least 1 letter and number</div>
+          </div>
         </div>
       </div>
-    </div>
+      <div class="form-row mb-3">
+        <div class="col-md-6">
+          <button type="submit" class="btn btn-primary">Sign In</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <h2 *ngIf="showRegisterWithGoogle || showRegisterWithPassword">It looks like you have not registered yet.</h2>
+  <div *ngIf="showRegisterWithGoogle">
+    <p>You can create a new account and sign in with your Google account:</p>
     <div class="form-row mb-3">
-      <div class="col-md-6">
-        <button type="submit" class="btn btn-primary">Sign In with Email Address</button>
+      <div class="col">
+        <button class="btn googleSignInButton" (click)="registerWithGoogle()"></button>
       </div>
     </div>
-  </form>
+  </div>
+
+  <div *ngIf="showRegisterWithPassword">
+    <p>You can create a new account and sign in with an email address and password:</p>
+    <form [formGroup]="registerEmailForm" (submit)="regiserWithEmail()" class="needs-validation" novalidate>
+      <div class="form-row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="registerEmail">Email address</label>
+            <input type="registerEmail" class="form-control" id="registerEmail" formControlName="registerEmail" class="form-control"
+              placeholder="Enter email" [ngClass]="{'is-invalid':isInvalid(registerEmail)}" required />
+            <div *ngIf="registerEmail.errors?.required" class="invalid-feedback">Email address is required</div>
+            <div *ngIf="registerEmail.errors?.email" class="invalid-feedback">Invalid email address</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-6">
+          <div class='form-group'>
+            <label for="">Password</label>
+            <input type="registerPassword" class="form-control" id="registerPassword" formControlName="registerPassword"
+              placeholder="Enter password" [ngClass]="{'is-invalid':isInvalid(registerPassword)}" required />
+            <div *ngIf="registerPassword.errors?.required" class="invalid-feedback">Password is required</div>
+            <div *ngIf="registerPassword.errors?.passwordComplexity" class="invalid-feedback">
+              Passwords should include at least 1 letter and number</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-6">
+          <div class='form-group'>
+            <label for="">Password</label>
+            <input type="registerConfirmPassword" class="form-control" id="registerConfirmPassword" formControlName="registerConfirmPassword"
+              placeholder="Confirm password" [ngClass]="{'is-invalid':isInvalid(registerConfirmPassword)}" required />
+            <div *ngIf="registerConfirmPassword.errors?.required" class="invalid-feedback">Password is required</div>
+            <div *ngIf="registerConfirmPassword.errors?.passwordMatch" class="invalid-feedback">
+              Both passwords must match</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row mb-3">
+        <div class="col-md-6">
+          <button type="submit" class="btn btn-primary">Sign In</button>
+        </div>
+      </div>
+    </form>
+  </div>
 
 </ng-template>
