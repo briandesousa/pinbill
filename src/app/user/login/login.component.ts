@@ -71,6 +71,10 @@ export class LoginComponent implements OnInit {
     return control.invalid && (control.dirty || control.touched);
   }
 
+  navigateToDashboard() {
+    this.router.navigate(['dashboard']);
+  }
+
   identifySignInMethods() {
     if(this.identifyEmailForm.valid) {
       this.userService.getAuthenticationMethods(this.email.value)
@@ -98,7 +102,7 @@ export class LoginComponent implements OnInit {
   signInWithEmail() {
     if(this.signInEmailForm.dirty && this.signInEmailForm.valid) {
       this.userService.loginWithEmail(this.signInEmail.value, this.signInPassword.value)
-        .then(result => this.router.navigate(['home']) )
+        .then(result => this.navigateToDashboard())
         .catch((reason: string) => this.backendAuthError = `Sign in with email failed (${reason})`);
     } else {
       // force validation
@@ -109,7 +113,7 @@ export class LoginComponent implements OnInit {
 
   signInWithGoogle() {
     this.userService.loginWithGoogle()
-      .then(result => this.router.navigate(['home']))
+      .then(result => this.navigateToDashboard())
       .catch((reason: string) => this.backendAuthError = `Sign in with Google failed (${reason})`);
   }
 
@@ -119,7 +123,7 @@ export class LoginComponent implements OnInit {
 
   registerWithGoogle() {
     this.userService.loginWithGoogle()
-      .then(result => this.router.navigate(['home']))
+      .then(result => this.navigateToDashboard())
       .catch((reason: string) => this.backendAuthError = `Registering with Google failed (${reason})`);
   }
 
