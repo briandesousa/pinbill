@@ -1,0 +1,9 @@
+<h2>Upcoming Bills</h2>
+<ul>
+  <li *ngFor="let billEvent of billEvents">
+    <p>
+      <strong class="pr-2">{{billEvent.eventName}}</strong>
+      <span class="font-weight-light">{{billEvent.startDateTime}} to {{billEvent.endDateTime}}</span>
+    </p>
+  </li>
+</ul>

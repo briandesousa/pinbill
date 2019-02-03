@@ -10,6 +10,7 @@ import { AngularFireModule } from '@angular/fire';
 
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { BillEventsModule } from './bill-events/bill-events.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     BillProviderModule,
+    BillEventsModule,
     AppRoutingModule
   ],
   providers: [],
